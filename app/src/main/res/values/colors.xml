@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="background">BCBCBC</color>
+    <color name="background">#BCBCBC</color>
+
+    <color name="progressBar_background">#6FAAE8</color>
 </resources>
