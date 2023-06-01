@@ -1,13 +1,10 @@
 package com.example.android_notepad;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.example.android_notepad.screens.NotepadFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,12 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NotepadFragment fragment = new NotepadFragment();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
-
+        //
 
     }
 }
