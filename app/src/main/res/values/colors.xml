@@ -5,4 +5,10 @@
 
     <color name="gray">#808080</color>
 
+<!--    Кольри заміток -->
+    <color name="color1">#35D50A</color>
+    <color name="color2">#1082CD</color>
+    <color name="color3">#E6DC0C</color>
+    <color name="color4">#C51111</color>
+
 </resources>

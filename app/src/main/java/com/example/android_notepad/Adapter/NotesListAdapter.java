@@ -15,7 +15,9 @@ import com.example.android_notepad.Models.Notes;
 import com.example.android_notepad.NotesClickListener;
 import com.example.android_notepad.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
 
@@ -54,6 +56,22 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>{
             holder.imageView_pin.setImageResource(0);
         }
 
+        int color_code = getRandomColor();
+        holder.notes_container.setCardBackgroundColor(holder.itemView.getResources().getColor(color_code, null));
+
+    }
+
+    private int getRandomColor() {
+        List<Integer> colorCode = new ArrayList<>();
+
+        colorCode.add(R.color.color1);
+        colorCode.add(R.color.color2);
+        colorCode.add(R.color.color3);
+        colorCode.add(R.color.color4);
+
+        Random random = new Random();
+        int random_color = random.nextInt(colorCode.size());
+        return colorCode.get(random_color);
     }
 
     @Override
