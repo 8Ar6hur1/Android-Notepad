@@ -1,11 +1,14 @@
 package com.example.android_notepad;
 
+import androidx.activity.result.ActivityResult;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -53,6 +56,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 101);
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+//        Код який я написав нище обробляє результат активності з кодом 101, якщо результат є RESULT_OK.
+//        Він отримує об'єкт Notes з інтента і вставляє його в базуданних,
+//        оновлює список нотаток і оновлює адаптер для відображення змін
+
+//        Перевіргмо, чи отриманий код requestCode співпадає з кодом 101:
+        if (requestCode == 101) {
+//            Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
+            if (resultCode == Activity.RESULT_OK) {
+//                Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
+                Notes new_notes = (Notes) data.getSerializableExtra("note");
+//                Вставляємо отриманий об'єкт new_notes в базу даних:
+                dataBase.mainDAO().insert(new_notes);
+//                Очищаємо список notes, оновлюємо його з бази даних і сповіщаємо адаптер про зміни:
+                notes.clear();
+                notes.addAll(dataBase.mainDAO().getAll());
+                notesListAdapter.notifyDataSetChanged();
+            }
+        }
 
     }
 
