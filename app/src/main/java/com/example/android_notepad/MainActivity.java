@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         public void onLongClick(Notes notes, CardView cardView) {
 
         }
-    }
+    };
 }
 
 

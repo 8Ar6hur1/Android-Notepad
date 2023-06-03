@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/gradient"
     tools:context=".NotesTakerActivity">
 
@@ -11,14 +12,47 @@
         android:id="@+id/toolbar_notes"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:titleTextColor="@color/black"
-        android:title="@string/app_name">
+        android:title="@string/app_name"
+        android:titleTextColor="@color/black">
 
-        <ImageView
-            android:id="@+id/imageView_save"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView_save"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentEnd="true"
+                android:padding="11dp"
+                android:src="@drawable/is_save" />
+
+        </RelativeLayout>
 
     </Toolbar>
+
+    <EditText
+        android:id="@+id/editText_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Назва"
+        android:textColor="@color/black"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColorHighlight="@color/black"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/editText_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Примітки"
+        android:textColor="@color/black"
+        android:padding="8dp"
+        android:textStyle="normal"
+        android:textSize="16sp"
+        android:textColorHighlight="@color/black"
+        android:singleLine="true"/>
 
 </LinearLayout>
