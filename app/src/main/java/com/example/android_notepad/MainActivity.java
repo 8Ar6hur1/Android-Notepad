@@ -152,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if (itemId == R.id.pin) {
             if (selectNote.isPinned()) {
                 dataBase.mainDAO().pin(selectNote.getID(), false);
-                Toast.makeText(MainActivity.this, "Unpinned", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Відкріпленно", Toast.LENGTH_SHORT).show();
             } else {
                 dataBase.mainDAO().pin(selectNote.getID(), true);
-                Toast.makeText(MainActivity.this, "Pinned", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Прикріпленно", Toast.LENGTH_SHORT).show();
             }
             notes.clear();
             notes.addAll(dataBase.mainDAO().getAll());
