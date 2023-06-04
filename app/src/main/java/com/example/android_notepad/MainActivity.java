@@ -1,6 +1,14 @@
 package com.example.android_notepad;
 
-import androidx.activity.result.ActivityResult;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -8,13 +16,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 
 import com.example.android_notepad.Adapter.NotesListAdapter;
 import com.example.android_notepad.DataBase.RoomDataBase;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     RecyclerView recyclerView;
     FloatingActionButton fab_add;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     RoomDataBase dataBase;
     List<Notes> notes = new ArrayList<>();
     SearchView searchView_home;
+    Notes selectNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,16 +132,47 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onLongClick(Notes notes, CardView cardView) {
-
+            selectNote = new Notes();
+            selectNote = notes;
+            showPopup (cardView);
         }
     };
+
+    private void showPopup(CardView cardView) {
+
+        PopupMenu popupMenu = new PopupMenu(this, cardView);
+        popupMenu.setOnMenuItemClickListener(this);
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.pin) {
+            if (selectNote.isPinned()) {
+                dataBase.mainDAO().pin(selectNote.getID(), false);
+                Toast.makeText(MainActivity.this, "Unpinned", Toast.LENGTH_SHORT).show();
+            } else {
+                dataBase.mainDAO().pin(selectNote.getID(), true);
+                Toast.makeText(MainActivity.this, "Pinned", Toast.LENGTH_SHORT).show();
+            }
+            notes.clear();
+            notes.addAll(dataBase.mainDAO().getAll());
+            notesListAdapter.notifyDataSetChanged();
+            return true;
+        } else if (itemId == R.id.delete) {
+            dataBase.mainDAO().delete(selectNote);
+            notes.remove(selectNote);
+            notesListAdapter.notifyDataSetChanged();
+            Toast.makeText(MainActivity.this, "Note removed", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
-
-
-
-
-
-
 
 
 
