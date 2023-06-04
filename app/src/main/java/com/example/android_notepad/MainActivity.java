@@ -25,7 +25,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
     RecyclerView recyclerView;
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filter (newText);
+                filter(newText);
                 return true;
             }
         });
@@ -81,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     private void filter(String newText) {
         List<Notes> filteredList = new ArrayList<>();
-        for (Notes singleNote: notes) {
+        for (Notes singleNote : notes) {
             if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
-            || singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())) {
+                    || singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())) {
                 filteredList.add(singleNote);
             }
         }
@@ -94,19 +93,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        Код який я написав нище обробляє результат активності з кодом 101, якщо результат є RESULT_OK.
-//        Він отримує об'єкт Notes з інтента і вставляє його в базуданних,
-//        оновлює список нотаток і оновлює адаптер для відображення змін
-
-//        Перевіргмо, чи отриманий код requestCode співпадає з кодом 101:
+        // Перевіряємо, чи отриманий код requestCode співпадає з кодом 101:
         if (requestCode == 101) {
-//            Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
+            // Перевіряємо, чи результат є RESULT_OK
             if (resultCode == Activity.RESULT_OK) {
-//                Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
-                Notes new_notes = (Notes) data.getSerializableExtra("note");
-//                Вставляємо отриманий об'єкт new_notes в базу даних:
-                dataBase.mainDAO().insert(new_notes);
-//                Очищаємо список notes, оновлюємо його з бази даних і сповіщаємо адаптер про зміни:
+                // Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
+                Notes newNote = (Notes) data.getSerializableExtra("note");
+                // Вставляємо отриманий об'єкт newNote в базу даних:
+                dataBase.mainDAO().insert(newNote);
+                // Очищаємо список notes, оновлюємо його з бази даних і сповіщаємо адаптер про зміни:
                 notes.clear();
                 notes.addAll(dataBase.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
@@ -118,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private void updateRecyclre(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        notesListAdapter = new NotesListAdapter(MainActivity.this,notes, notesClickListener);
+        notesListAdapter = new NotesListAdapter(MainActivity.this, notes, notesClickListener);
         recyclerView.setAdapter(notesListAdapter);
     }
 
@@ -134,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         public void onLongClick(Notes notes, CardView cardView) {
             selectNote = new Notes();
             selectNote = notes;
-            showPopup (cardView);
+            showPopup(cardView);
         }
     };
 
@@ -152,10 +147,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if (itemId == R.id.pin) {
             if (selectNote.isPinned()) {
                 dataBase.mainDAO().pin(selectNote.getID(), false);
-                Toast.makeText(MainActivity.this, "Відкріпленно", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Відкріплено", Toast.LENGTH_SHORT).show();
             } else {
                 dataBase.mainDAO().pin(selectNote.getID(), true);
-                Toast.makeText(MainActivity.this, "Прикріпленно", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Прикріплено", Toast.LENGTH_SHORT).show();
             }
             notes.clear();
             notes.addAll(dataBase.mainDAO().getAll());
@@ -171,5 +166,4 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             return false;
         }
     }
-
 }
