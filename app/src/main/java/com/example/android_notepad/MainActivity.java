@@ -3,6 +3,7 @@ package com.example.android_notepad;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 
 import com.example.android_notepad.Adapter.NotesListAdapter;
 import com.example.android_notepad.DataBase.RoomDataBase;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     NotesListAdapter notesListAdapter;
     RoomDataBase dataBase;
     List<Notes> notes = new ArrayList<>();
+    SearchView searchView_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycle_home);
         fab_add = findViewById(R.id.fab_add);
 
+        searchView_home = findViewById(R.id.searchView_home);
+
         dataBase = RoomDataBase.getInstance(this);
         notes = dataBase.mainDAO().getAll();
 
@@ -57,6 +62,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter (newText);
+                return true;
+            }
+        });
+
+    }
+
+    private void filter(String newText) {
+        List<Notes> filteredList = new ArrayList<>();
+        for (Notes singleNote: notes) {
+            if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
+            || singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())) {
+                filteredList.add(singleNote);
+            }
+        }
+        notesListAdapter.filterList(filteredList);
     }
 
     @Override
@@ -94,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
     private final NotesClickListener notesClickListener = new NotesClickListener() {
         @Override
         public void onClick(Notes notes) {
-
+            Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
+            intent.putExtra("old_note", notes);
+            startActivityForResult(intent, 102);
         }
 
         @Override
