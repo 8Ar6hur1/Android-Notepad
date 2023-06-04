@@ -93,22 +93,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Перевіряємо, чи отриманий код requestCode співпадає з кодом 101:
         if (requestCode == 101) {
-            // Перевіряємо, чи результат є RESULT_OK
             if (resultCode == Activity.RESULT_OK) {
-                // Отримуємо об'єкт Notes з інтента, використовуючи ключ "note":
                 Notes newNote = (Notes) data.getSerializableExtra("note");
-                // Вставляємо отриманий об'єкт newNote в базу даних:
                 dataBase.mainDAO().insert(newNote);
-                // Очищаємо список notes, оновлюємо його з бази даних і сповіщаємо адаптер про зміни:
+                notes.clear();
+                notes.addAll(dataBase.mainDAO().getAll());
+                notesListAdapter.notifyDataSetChanged();
+            }
+        } else if (requestCode == 102) {
+            if (resultCode == Activity.RESULT_OK) {
+                Notes updatedNote = (Notes) data.getSerializableExtra("note");
+                dataBase.mainDAO().update(updatedNote.getID(), updatedNote.getTitle(), updatedNote.getNotes());
                 notes.clear();
                 notes.addAll(dataBase.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
             }
         }
-
     }
+
 
     private void updateRecyclre(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);

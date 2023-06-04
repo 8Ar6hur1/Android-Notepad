@@ -39,6 +39,7 @@ public class NotesTakerActivity extends AppCompatActivity {
 
         notes = new Notes();
         try {
+            // Отримати передану нотатку для редагування
             notes = (Notes) getIntent().getSerializableExtra("old_note");
             editText_title.setText(notes.getTitle());
             editText_notes.setText(notes.getNotes());
@@ -57,15 +58,17 @@ public class NotesTakerActivity extends AppCompatActivity {
                     Toast.makeText(NotesTakerActivity.this, "Будь ласка, введіть опис", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                // Отримати поточну дату та час
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
                 Date date = new Date();
 
                 if (!isOldNote) {
+                    // Якщо створюється нова нотатка
                     notes = new Notes();
                 }
 
-                notes = new Notes();
-
+                // Оновити дані нотатки
                 notes.setTitle(title);
                 notes.setNotes(description);
                 notes.setDate(formatter.format(date));
@@ -74,20 +77,8 @@ public class NotesTakerActivity extends AppCompatActivity {
                 intent.putExtra("note", notes);
                 setResult(RESULT_OK, intent);
                 finish();
-
             }
         });
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
