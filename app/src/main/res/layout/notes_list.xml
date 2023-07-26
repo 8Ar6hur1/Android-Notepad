@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:maxLength="10"
                 android:text="Заголовок"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -63,7 +64,7 @@
             android:text="Текст"
             android:textSize="14sp"
             android:padding="8dp"
-            android:maxLines="10"
+            android:maxLines="30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -73,7 +74,7 @@
             android:text="дата"
             android:textSize="14sp"
             android:padding="8dp"
-            android:maxLines="10"
+            android:maxLines="30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"

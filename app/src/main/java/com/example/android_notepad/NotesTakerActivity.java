@@ -54,6 +54,11 @@ public class NotesTakerActivity extends AppCompatActivity {
                 String title = editText_title.getText().toString();
                 String description = editText_notes.getText().toString();
 
+                if (title.isEmpty()) {
+                    Toast.makeText(NotesTakerActivity.this, "Будь ласка, введіть назву", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (description.isEmpty()) {
                     Toast.makeText(NotesTakerActivity.this, "Будь ласка, введіть опис", Toast.LENGTH_SHORT).show();
                     return;
